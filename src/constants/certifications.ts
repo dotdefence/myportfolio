@@ -1,0 +1,145 @@
+import { Award, CheckCircle2, Calendar, TrendingUp, type LucideIcon } from 'lucide-react';
+import type { Certification, UpcomingCertification } from '@/types';
+
+export const certifications: Certification[] = [
+  {
+    id: 1,
+    title: 'Network Defense',
+    issuer: 'Cisco',
+    issuerIcon: '🔐',
+    year: '2025',
+    description: 'Certified in network security, defense strategies, and threat mitigation',
+    skills: ['Network Security', 'Firewall Configuration', 'IDS/IPS', 'Security Monitoring'],
+    verified: true,
+    credential: 'https://www.cisco.com',
+  },
+  {
+    id: 2,
+    title: 'HTML Essentials',
+    issuer: 'Cisco',
+    issuerIcon: '🌐',
+    year: '2025',
+    description: 'Foundation certification in HTML and web development basics',
+    skills: ['HTML', 'Web Development', 'Frontend Basics'],
+    verified: true,
+    credential: 'https://www.cisco.com',
+  },
+  {
+    id: 3,
+    title: 'Vulnerability Assessment and Penetration Testing (VAPT)',
+    issuer: 'Professional Training',
+    issuerIcon: '🛡️',
+    year: '2025',
+    description: 'Comprehensive training in identifying and exploiting security vulnerabilities',
+    skills: ['VAPT', 'Burp Suite', 'Nessus', 'Security Audits'],
+    verified: true,
+    credential: '#',
+  },
+  {
+    id: 4,
+    title: 'ISO 27001 Foundation',
+    issuer: 'Security Training Institute',
+    issuerIcon: '📜',
+    year: '2025',
+    description: 'Information security management systems certification',
+    skills: ['ISO 27001', 'Compliance', 'Risk Management', 'Security Standards'],
+    verified: true,
+    credential: '#',
+  },
+  {
+    id: 5,
+    title: 'Red Team Operations',
+    issuer: 'Advanced Security Training',
+    issuerIcon: '⚔️',
+    year: '2025',
+    description: 'Advanced offensive security and red teaming methodologies',
+    skills: ['Red Teaming', 'Adversary Simulation', 'Attack Techniques'],
+    verified: true,
+    credential: '#',
+  },
+  {
+    id: 6,
+    title: 'Bug Bounty Hunter Certification',
+    issuer: 'HackerOne / Bugcrowd',
+    issuerIcon: '🐛',
+    year: '2024',
+    description: 'Professional bug bounty hunting and responsible disclosure',
+    skills: ['Bug Bounty', 'Web Application Security', 'Responsible Disclosure'],
+    verified: true,
+    credential: '#',
+  },
+  {
+    id: 7,
+    title: 'Ethical Hacking Essentials',
+    issuer: 'EC-Council',
+    issuerIcon: '🎓',
+    year: '2024',
+    description: 'Foundation in ethical hacking principles and methodologies',
+    skills: ['Ethical Hacking', 'Penetration Testing', 'Security Assessment'],
+    verified: true,
+    credential: '#',
+  },
+  {
+    id: 8,
+    title: 'Digital Forensics Fundamentals',
+    issuer: 'SANS Institute',
+    issuerIcon: '🔍',
+    year: '2024',
+    description: 'Investigation and analysis of digital evidence',
+    skills: ['Digital Forensics', 'Incident Response', 'Evidence Analysis'],
+    verified: true,
+    credential: '#',
+  },
+  {
+    id: 9,
+    title: 'Web Application Security',
+    issuer: 'OWASP',
+    issuerIcon: '🌐',
+    year: '2024',
+    description: 'Comprehensive training in OWASP Top 10 and web security',
+    skills: ['OWASP', 'Web Security', 'SQL Injection', 'XSS', 'CSRF'],
+    verified: true,
+    credential: '#',
+  },
+  {
+    id: 10,
+    title: 'Python for Cybersecurity',
+    issuer: 'Python Institute',
+    issuerIcon: '🐍',
+    year: '2024',
+    description: 'Security automation and tool development using Python',
+    skills: ['Python', 'Automation', 'Security Scripting', 'Tool Development'],
+    verified: true,
+    credential: '#',
+  },
+  {
+    id: 11,
+    title: 'Cloud Security Fundamentals',
+    issuer: 'Cloud Security Alliance',
+    issuerIcon: '☁️',
+    year: '2024',
+    description: 'Security best practices for cloud environments',
+    skills: ['Cloud Security', 'AWS Security', 'Azure Security', 'GCP Security'],
+    verified: true,
+    credential: '#',
+  },
+];
+
+export const upcomingCertifications: UpcomingCertification[] = [
+  { name: 'OSCP (Offensive Security Certified Professional)', status: 'In Progress', year: '2025' },
+  { name: 'CEH (Certified Ethical Hacker)', status: 'Planned', year: '2026' },
+  { name: 'CISSP (Certified Information Systems Security Professional)', status: 'Planned', year: '2026' },
+];
+
+export interface CertificationStatConfig {
+  value: number | string;
+  label: string;
+  icon: LucideIcon;
+}
+
+export const certificationStats: CertificationStatConfig[] = [
+  { value: certifications.length, label: 'Total Certifications', icon: Award },
+  { value: '8+', label: 'Trusted Providers', icon: CheckCircle2 },
+  { value: '2025', label: 'Latest Year', icon: Calendar },
+  { value: '3', label: 'In Progress', icon: TrendingUp },
+];
