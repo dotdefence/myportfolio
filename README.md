@@ -2,7 +2,7 @@
 
 > Modern, responsive portfolio website showcasing cybersecurity expertise, projects, certifications, and professional experience.
 
-[![Next.js](https://img.shields.io/badge/Next.js-15.5.6-black?logo=next.js)](https://nextjs.org/)
+[![Next.js](https://img.shields.io/badge/Next.js-16.0.4-black?logo=next.js)](https://nextjs.org/)
 [![React](https://img.shields.io/badge/React-19.2.0-blue?logo=react)](https://reactjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.5.3-blue?logo=typescript)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.4.1-38B2AC?logo=tailwind-css)](https://tailwindcss.com/)
@@ -19,21 +19,22 @@ This portfolio website is built with cutting-edge web technologies to showcase c
 ### 🎯 Key Features
 
 - ✨ **Modern Design** - Cybersecurity-themed dark mode with purple/pink gradients
-- 🎭 **Smooth Animations** - Framer Motion powered micro-interactions
+- 🎭 **Smooth Animations** - Framer Motion powered micro-interactions and particle effects
 - 📱 **Fully Responsive** - Optimized for desktop, tablet, and mobile devices
-- ⚡ **Performance Focused** - Built with Next.js 15 App Router (182 kB First Load JS)
+- ⚡ **Performance Focused** - Built with Next.js 16 App Router (182 kB First Load JS)
 - ♿ **Accessibility** - WCAG 2.1 compliant with skip links and focus indicators
 - 🔍 **SEO Optimized** - Comprehensive metadata, sitemap, and structured data
 - 📧 **Functional Contact Form** - Integrated with Nodemailer for real-time emails
 - 🔒 **Security Hardened** - Input validation, rate limiting ready, XSS protection
 - 📊 **Analytics Ready** - Vercel Analytics and Speed Insights integrated
+- 🎨 **Interactive Backgrounds** - Particle effects and Matrix rain animations
 
 ---
 
 ## 🚀 Tech Stack
 
 ### Core Technologies
-- **Framework:** [Next.js 15.5.6](https://nextjs.org/) (App Router)
+- **Framework:** [Next.js 16.0.4](https://nextjs.org/) (App Router)
 - **UI Library:** [React 19.2.0](https://reactjs.org/)
 - **Language:** [TypeScript 5.5.3](https://www.typescriptlang.org/)
 - **Styling:** [Tailwind CSS 3.4.1](https://tailwindcss.com/)
@@ -51,6 +52,8 @@ This portfolio website is built with cutting-edge web technologies to showcase c
 - **Email:** Nodemailer 7.0.10 (Backend API route)
 - **Analytics:** Vercel Analytics & Speed Insights
 - **State Management:** TanStack Query 5.90.2
+- **Drag & Drop:** @dnd-kit/core & @dnd-kit/sortable
+- **Toast Notifications:** React Hot Toast 2.6.0
 
 ---
 
@@ -65,16 +68,16 @@ myportfolio/
 ├── src/
 │   ├── app/                    # Next.js App Router
 │   │   ├── api/                # API Routes
-│   │   │   └── contact/        # Contact form handler with validation
+│   │   │   └── contact/        # Contact form handler with Nodemailer
 │   │   ├── layout.tsx          # Root layout with metadata
-│   │   ├── page.tsx            # Homepage
-│   │   ├── not-found.tsx       # Custom 404 page
+│   │   ├── page.tsx            # Homepage with all sections
+│   │   ├── not-found.tsx       # Custom 404 page (cybersecurity theme)
 │   │   ├── sitemap.ts          # Dynamic sitemap generation
-│   │   └── globals.css         # Global styles & animations (481 lines)
+│   │   └── globals.css         # Global styles & animations
 │   ├── components/
 │   │   ├── sections/           # Page sections (7 components)
 │   │   │   ├── Hero.tsx        # Landing section with particle effects
-│   │   │   ├── About.tsx       # About me section
+│   │   │   ├── About.tsx       # About me section with profile cards
 │   │   │   ├── Skills.tsx      # Skills showcase with infinite scroll
 │   │   │   ├── Projects.tsx    # Projects carousel with filtering
 │   │   │   ├── Experience.tsx  # Work experience timeline
@@ -86,20 +89,28 @@ myportfolio/
 │   │   │   ├── ParticleBackground.tsx # Canvas particle animation
 │   │   │   ├── MatrixRain.tsx  # Alternative background effect
 │   │   │   └── ScrollProgress.tsx # Reading progress indicator
-│   │   └── ui/                 # Reusable UI components (11 Radix components)
+│   │   └── ui/                 # Reusable UI components (11+ Radix components)
+│   │       ├── TiltCard.tsx    # Interactive project cards
+│   │       ├── avatar.tsx      # Avatar component
+│   │       ├── badge.tsx       # Badge component
+│   │       ├── button.tsx      # Button component
+│   │       ├── card.tsx        # Card component
+│   │       ├── input.tsx       # Input component
+│   │       ├── label.tsx       # Label component
+│   │       ├── textarea.tsx    # Textarea component
+│   │       └── toast.tsx       # Toast notification components
 │   ├── constants/              # Data & configuration
 │   │   ├── certifications.ts   # 10+ certifications data
 │   │   ├── experience.ts       # Work experience data
 │   │   ├── projects.ts         # 6 projects data
 │   │   ├── skills.ts           # Skills categorized by type
-│   │   └── site-config.ts      # Site configuration
+│   │   └── site-config.ts      # Site configuration & navigation
 │   ├── hooks/                  # Custom React hooks
 │   │   └── use-toast.ts        # Toast notification hook
 │   ├── lib/                    # Utility functions
-│   │   ├── firebase/           # Firebase configuration
 │   │   └── utils.ts            # Helper utilities
 │   └── types/                  # TypeScript type definitions
-└── package.json                # Dependencies (53 packages)
+└── package.json                # Dependencies (53+ packages)
 ```
 
 ---
@@ -180,7 +191,7 @@ npm start
 - ✅ **TypeScript Excellence:** 100% type coverage, strict mode enabled
 - ✅ **Clean Architecture:** Separation of concerns (components/constants/lib)
 - ✅ **Modern React Patterns:** Hooks, functional components, proper memoization
-- ✅ **Next.js 15 Best Practices:** App Router, Server Components where applicable
+- ✅ **Next.js 16 Best Practices:** App Router, Server Components where applicable
 - ✅ **Consistent Naming:** camelCase for variables, PascalCase for components
 - ✅ **Image Optimization:** `next/image` with proper width/height attributes
 - ✅ **No TypeScript Errors:** `tsc --noEmit` passes successfully
@@ -194,6 +205,7 @@ npm start
 - 🎯 **Responsive Mobile Menu:** Smooth slide-in navigation
 - 🎯 **Particle Background:** Canvas-based animation with performance optimization
 - 🎯 **Scroll Progress:** Visual reading progress indicator
+- 🎯 **Custom 404 Page:** Cybersecurity-themed error page with animated logs
 
 ### ⚡ Performance
 - 📦 **Bundle Size:** 182 kB First Load JS (excellent for feature-rich site)
@@ -771,6 +783,8 @@ export const metadata: Metadata = {
 - [x] **TypeScript:** 100% type coverage
 - [x] **Responsive Design:** Mobile-first approach
 - [x] **Analytics:** Vercel Analytics & Speed Insights
+- [x] **Custom 404:** Cybersecurity-themed error page
+- [x] **Particle Effects:** Interactive background animations
 
 ### 🔴 Phase 2: Critical Fixes (Priority: Immediate)
 **Estimated Time: 1-2 hours**
@@ -821,15 +835,6 @@ EMAIL_FROM=your-email@gmail.com
 EMAIL_TO=your-email@gmail.com
 SEND_AUTO_REPLY=true
 
-# Firebase Configuration (Optional)
-NEXT_PUBLIC_FIREBASE_API_KEY=your_api_key
-NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your_project_id.firebaseapp.com
-NEXT_PUBLIC_FIREBASE_PROJECT_ID=your_project_id
-NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=your_project_id.firebasestorage.app
-NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
-NEXT_PUBLIC_FIREBASE_APP_ID=your_app_id
-NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID=your_measurement_id
-
 # Analytics (Optional)
 NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
 
@@ -861,15 +866,15 @@ Implement error boundaries
 ### Bundle Analysis
 ```
 Route (app)                Size    First Load JS
-┌ ○ /                     70.8 kB    182 kB
-├ ○ /_not-found           128 B      102 kB
-├ ƒ /api/contact          128 B      102 kB
-└ ○ /sitemap.xml          128 B      102 kB
+┌ ○ /                     ~182 kB    ~182 kB
+├ ○ /_not-found           ~128 B      ~102 kB
+├ ƒ /api/contact          ~128 B      ~102 kB
+└ ○ /sitemap.xml          ~128 B      ~102 kB
 
-First Load JS shared by all: 102 kB
-├ chunks/255-*.js         45.8 kB
-├ chunks/4bd1b696-*.js    54.2 kB
-└ other shared chunks     1.92 kB
+First Load JS shared by all: ~102 kB
+├ chunks/255-*.js         ~45.8 kB (Framer Motion)
+├ chunks/4bd1b696-*.js    ~54.2 kB (Other dependencies)
+└ other shared chunks      ~1.92 kB
 ```
 
 ### Optimization Targets
@@ -961,5 +966,5 @@ This project is open source and available under the [MIT License](LICENSE).
 ---
 
 **Built with ❤️ and ☕ by Pranaav Bhatnagar**  
-**Last Updated: November 25, 2025**  
+**Last Updated: 26 November 2025**  
 **Version: 1.0.0**

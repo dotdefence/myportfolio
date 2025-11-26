@@ -91,11 +91,11 @@ export default function Contact() {
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
+        <div className="grid lg:grid-cols-2 gap-8 max-w-6xl mx-auto items-start">
           {/* Left Column - Contact Form */}
-          <div className="space-y-8">
+          <div>
             <Card className="border-border/50 bg-card/50 backdrop-blur-sm">
-              <CardContent className="p-8">
+              <CardContent className="p-6">
                 <div className="flex items-center gap-3 mb-6">
                   <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-pink-500/20 to-purple-500/20 flex items-center justify-center">
                     <MessageSquare className="h-6 w-6 text-pink-400" />
@@ -106,7 +106,7 @@ export default function Contact() {
                   </div>
                 </div>
 
-                <form onSubmit={handleSubmit} className="space-y-6">
+                <form onSubmit={handleSubmit} className="space-y-3">
                   <div className="space-y-2">
                     <Label htmlFor="name">Your Name</Label>
                     <Input
@@ -171,7 +171,7 @@ export default function Contact() {
           </div>
 
           {/* Right Column - Contact Info & Social */}
-          <div className="space-y-6">
+          <div className="space-y-4">
             {/* Contact Info Cards */}
             {contactInfo.map((info, index) => {
               const Icon = info.icon;
@@ -203,7 +203,7 @@ export default function Contact() {
 
             {/* Social Links Card */}
             <Card className="border-border/50 bg-gradient-to-br from-pink-500/10 via-purple-500/10 to-violet-500/10 backdrop-blur-sm">
-              <CardContent className="p-8">
+              <CardContent className="p-6">
                 <h3 className="text-xl font-semibold mb-6 text-center">Connect With Me</h3>
                 <div className="grid grid-cols-2 gap-4 mb-6">
                   {socialLinks.map((social) => {
@@ -241,22 +241,24 @@ export default function Contact() {
                 </Button>
               </CardContent>
             </Card>
-
-            {/* Availability Badge */}
-            <Card className="border-emerald-500/50 bg-gradient-to-br from-emerald-500/10 to-cyan-500/10 backdrop-blur-sm">
-              <CardContent className="p-6 text-center">
-                <div className="flex items-center justify-center gap-2 mb-2">
-                  <div className="w-3 h-3 bg-emerald-500 rounded-full animate-pulse" />
-                  <Badge variant="secondary" className="bg-emerald-500/20 text-emerald-400 border-emerald-500/30">
-                    Available for Projects
-                  </Badge>
-                </div>
-                <p className="text-sm text-muted-foreground">
-                  Open to freelance, full-time, and collaborative opportunities
-                </p>
-              </CardContent>
-            </Card>
           </div>
+        </div>
+
+        {/* Bottom Banner - Centered with proper spacing */}
+        <div className="mt-8 flex justify-center">
+          <Card className="border-emerald-500/50 bg-gradient-to-br from-emerald-500/10 to-cyan-500/10 backdrop-blur-sm max-w-md w-full">
+            <CardContent className="p-6 text-center">
+              <div className="flex items-center justify-center gap-2 mb-2">
+                <div className="w-3 h-3 bg-emerald-500 rounded-full animate-pulse" />
+                <Badge variant="secondary" className="bg-emerald-500/20 text-emerald-400 border-emerald-500/30">
+                  Available for Projects
+                </Badge>
+              </div>
+              <p className="text-sm text-muted-foreground">
+                Open to freelance, full-time, and collaborative opportunities
+              </p>
+            </CardContent>
+          </Card>
         </div>
       </div>
     </section>

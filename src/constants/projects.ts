@@ -6,7 +6,7 @@ export const projects: Project[] = [
     title: 'Blomac Custom PC Builder',
     description: 'Advanced e-commerce platform for custom PC building with real-time compatibility checks, AI-powered recommendations for gamers and professionals, wishlist, product comparison, and secure Razorpay checkout.',
     image: '�',
-    tags: ['Next.js 15', 'React 18', 'Firebase', 'Razorpay', 'Tailwind CSS', 'Radix UI', 'Framer Motion'],
+    tags: ['Next.js 15', 'React 18', 'Razorpay', 'Tailwind CSS', 'Radix UI', 'Framer Motion'],
     category: 'web',
     featured: true,
     github: 'https://github.com/techjunior2022',
