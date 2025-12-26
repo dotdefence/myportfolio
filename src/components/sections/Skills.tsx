@@ -1,181 +1,179 @@
 'use client';
 
-import { Badge } from '@/components/ui/badge';
-import { Card, CardContent } from '@/components/ui/card';
-import { useEffect, useRef } from 'react';
-import { programmingSkills, cybersecuritySkills, toolsSkills, softSkills } from '@/constants/skills';
+import React from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
 
-export default function Skills() {
-  const scrollRef1 = useRef<HTMLDivElement>(null);
-  const scrollRef2 = useRef<HTMLDivElement>(null);
+const Row1Icons = [
+    { name: 'HTML5', icon: '/skills/html5.svg', color: '#E34F26' },
+    { name: 'CSS3', icon: '/skills/css3.svg', color: '#1572B6' },
+    { name: 'JavaScript', icon: '/skills/javascript.svg', color: '#F7DF1E' },
+    { name: 'TypeScript', icon: '/skills/typescript.svg', color: '#3178C6' },
+    { name: 'React', icon: '/skills/react.svg', color: '#61DAFB' },
+    { name: 'Vue', icon: '/skills/vue.svg', color: '#4FC08D' },
+    { name: 'Angular', icon: '/skills/angular.svg', color: '#DD0031' },
+    { name: 'Svelte', icon: '/skills/svelte.svg', color: '#FF3E00' },
+    { name: 'Next.js', icon: '/skills/nextjs.svg', color: '#FFFFFF' },
+    { name: 'Tailwind CSS', icon: '/skills/tailwind.svg', color: '#06B6D4' },
+    { name: 'Figma', icon: '/skills/figma.svg', color: '#F24E1E' },
+    { name: 'VS Code', icon: '/skills/vscode.svg', color: '#007ACC' },
+    { name: 'Git', icon: '/skills/git.svg', color: '#F05032' },
+];
 
-  // Duplicate skills for seamless loop
-  const duplicatedProgramming = [...programmingSkills, ...programmingSkills, ...programmingSkills];
-  const duplicatedTools = [...toolsSkills, ...toolsSkills, ...toolsSkills];
+const Row2Icons = [
+    { name: 'Node.js', icon: '/skills/nodejs.svg', color: '#339933' },
+    { name: 'Python', icon: '/skills/python.svg', color: '#3776AB' },
+    { name: 'Java', icon: '/skills/java.svg', color: '#007396' },
+    { name: 'Go', icon: '/skills/go.svg', color: '#00ADD8' },
+    { name: 'C++', icon: '/skills/cpp.svg', color: '#00599C' },
+    { name: 'PHP', icon: '/skills/php.svg', color: '#777BB4' },
+    { name: 'Ruby', icon: '/skills/ruby.svg', color: '#CC342D' },
+    { name: 'Swift', icon: '/skills/swift.svg', color: '#F05138' },
+    { name: 'Kotlin', icon: '/skills/kotlin.svg', color: '#7F52FF' },
+    { name: 'Dart', icon: '/skills/dart.svg', color: '#0175C2' },
+    { name: 'Rust', icon: '/skills/rust.svg', color: '#DEA584' },
+    { name: 'Laravel', icon: '/skills/laravel.svg', color: '#FF2D20' },
+    { name: 'Django', icon: '/skills/django.svg', color: '#092E20' },
+];
 
-  useEffect(() => {
-    const scrollContainer1 = scrollRef1.current;
-    const scrollContainer2 = scrollRef2.current;
-    if (!scrollContainer1 || !scrollContainer2) return;
+const Row3Icons = [
+    { name: 'MongoDB', icon: '/skills/mongodb.svg', color: '#47A248' },
+    { name: 'PostgreSQL', icon: '/skills/postgresql.svg', color: '#4169E1' },
+    { name: 'MySQL', icon: '/skills/mysql.svg', color: '#4479A1' },
+    { name: 'Redis', icon: '/skills/redis.svg', color: '#DC382D' },
+    { name: 'ElasticSearch', icon: '/skills/elasticsearch.svg', color: '#005571' },
+    { name: 'GraphQL', icon: '/skills/graphql.svg', color: '#E10098' },
+    { name: 'Firebase', icon: '/skills/firebase.svg', color: '#FFCA28' },
+    { name: 'Docker', icon: '/skills/docker.svg', color: '#2496ED' },
+    { name: 'Kubernetes', icon: '/skills/kubernetes.svg', color: '#326CE5' },
+    { name: 'Jenkins', icon: '/skills/jenkins.svg', color: '#D24939' },
+    { name: 'Ansible', icon: '/skills/ansible.svg', color: '#EE0000' },
+    { name: 'Terraform', icon: '/skills/terraform.svg', color: '#7B42BC' },
+    { name: 'Nginx', icon: '/skills/nginx.svg', color: '#009639' },
+];
 
-    let animationId1: number;
-    let animationId2: number;
-    let scrollPosition1 = 0;
-    let scrollPosition2 = 0;
-    const scrollSpeed = 1;
+const Row4Icons = [
+    { name: 'Kali Linux', icon: '/skills/kali.svg', color: '#557C94' },
+    { name: 'Burp Suite', icon: '/skills/burp.ico', color: '#FF6633' },
+    { name: 'Metasploit', icon: '/skills/metasploit.svg', color: '#3F51B5' },
+    { name: 'Nmap', icon: '/skills/nmap.png', color: '#2B1D0E' },
+    { name: 'Wireshark', icon: '/skills/wireshark.svg', color: '#1679A7' },
+    { name: 'Ghidra', icon: '/skills/ghidra.png', color: '#727272' },
+    { name: 'Maltego', icon: '/skills/maltego.ico', color: '#E66400' },
+    { name: 'Hydra', icon: '/skills/hydra.svg', color: '#FF0040' },
+    { name: 'OWASP', icon: '/skills/owasp.png', color: '#322E75' },
+    { name: 'Hashcat', icon: '/skills/hashcat.ico', color: '#777777' },
+    { name: 'Tor', icon: '/skills/tor.svg', color: '#7D4698' },
+    { name: 'Wireguard', icon: '/skills/wireguard.svg', color: '#88171A' },
+    { name: 'Splunk', icon: '/skills/splunk.ico', color: '#000000' },
+];
 
-    const animate1 = () => {
-      scrollPosition1 += scrollSpeed;
-      
-      if (scrollPosition1 >= scrollContainer1.scrollWidth / 3) {
-        scrollPosition1 = 0;
-      }
-      
-      scrollContainer1.scrollLeft = scrollPosition1;
-      animationId1 = requestAnimationFrame(animate1);
-    };
+const Row5Icons = [
+    { name: 'AWS', icon: '/skills/aws.svg', color: '#FF9900' },
+    { name: 'Azure', icon: '/skills/azure.svg', color: '#0089D6' },
+    { name: 'GCP', icon: '/skills/gcp.svg', color: '#4285F4' },
+    { name: 'Cloudflare', icon: '/skills/cloudflare.svg', color: '#F38020' },
+    { name: 'Vercel', icon: '/skills/vercel.svg', color: '#FFFFFF' },
+    { name: 'Netlify', icon: '/skills/netlify.svg', color: '#00C7B7' },
+    { name: 'GitHub', icon: '/skills/github.svg', color: '#FFFFFF' },
+    { name: 'Bitbucket', icon: '/skills/bitbucket.svg', color: '#0052CC' },
+    { name: 'Cisco', icon: '/skills/cisco.svg', color: '#1BA0D7' },
+    { name: 'Fortinet', icon: '/skills/fortinet.svg', color: '#EE3124' },
+    { name: 'Palo Alto', icon: '/skills/paloalto.svg', color: '#F68B1F' },
+    { name: 'Prometheus', icon: '/skills/prometheus.svg', color: '#E6522C' },
+    { name: 'Grafana', icon: '/skills/grafana.svg', color: '#F46800' },
+];
 
-    const animate2 = () => {
-      scrollPosition2 -= scrollSpeed;
-      
-      if (scrollPosition2 <= 0) {
-        scrollPosition2 = scrollContainer2.scrollWidth / 3;
-      }
-      
-      scrollContainer2.scrollLeft = scrollPosition2;
-      animationId2 = requestAnimationFrame(animate2);
-    };
+const Skills: React.FC = () => {
+    const { scrollYProgress } = useScroll();
 
-    scrollPosition2 = scrollContainer2.scrollWidth / 3;
-    scrollContainer2.scrollLeft = scrollPosition2;
+    // Custom transform ranges for the parallax drift effect
+    const x1 = useTransform(scrollYProgress, [0, 1], [-50, 50]);
+    const x2 = useTransform(scrollYProgress, [0, 1], [50, -50]);
+    const x3 = useTransform(scrollYProgress, [0, 1], [-50, 50]);
+    const x4 = useTransform(scrollYProgress, [0, 1], [50, -50]);
+    const x5 = useTransform(scrollYProgress, [0, 1], [-50, 50]);
 
-    animationId1 = requestAnimationFrame(animate1);
-    animationId2 = requestAnimationFrame(animate2);
-
-    return () => {
-      cancelAnimationFrame(animationId1);
-      cancelAnimationFrame(animationId2);
-    };
-  }, []);
-
-  return (
-    <section id="skills" className="py-24 px-4 relative overflow-hidden">
-      {/* Background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-background via-purple-500/5 to-background -z-10" />
-      
-      <div className="container mx-auto max-w-7xl">
-        {/* Section Header */}
-        <div className="text-center mb-16 space-y-4">
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold">
-            Skills & <span className="bg-gradient-to-r from-purple-400 to-pink-400 text-transparent bg-clip-text">Technologies</span>
-          </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Specialized in cybersecurity tools, programming languages, and penetration testing
-          </p>
-        </div>
-
-        {/* Cybersecurity Skills Grid - Static */}
-        <div className="mb-16">
-          <h3 className="text-2xl font-semibold text-center mb-8 bg-gradient-to-r from-purple-400 to-pink-400 text-transparent bg-clip-text">
-            Cybersecurity Fundamentals
-          </h3>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-            {cybersecuritySkills.map((skill, index) => (
-              <Card
-                key={index}
-                className="border-border/50 bg-card/50 backdrop-blur-sm hover:border-purple-500/50 hover:bg-purple-500/10 transition-all hover:scale-105"
-              >
-                <CardContent className="p-6 text-center">
-                  <div className="text-4xl mb-2">{skill.icon}</div>
-                  <h4 className="font-semibold text-sm">{skill.name}</h4>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-
-        {/* Programming Languages - Infinite Scroll Row 1 */}
-        <div className="mb-8">
-          <h3 className="text-2xl font-semibold text-center mb-8 bg-gradient-to-r from-pink-400 to-blue-400 text-transparent bg-clip-text">
-            Programming Languages
-          </h3>
-          <div className="relative">
-            <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
-            <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
-            
-            <div 
-              ref={scrollRef1}
-              className="flex gap-6 overflow-x-hidden pb-4"
-              style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-            >
-              {duplicatedProgramming.map((skill, index) => (
-                <Card 
-                  key={`${skill.name}-${index}`}
-                  className="flex-shrink-0 w-40 sm:w-48 md:w-56 border-border/50 bg-card/50 backdrop-blur-sm hover:border-pink-500/50 hover:scale-105 transition-all"
+    return (
+        <section id="skills" className="frameworks-section border-y border-white/5 bg-[#020202]">
+            <div className="container mx-auto px-4 relative z-10 text-center">
+                <motion.h2
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    className="text-white text-3xl md:text-5xl font-bold mb-16 tracking-tight"
                 >
-                  <CardContent className="p-6 text-center">
-                    <div className="text-4xl mb-2">{skill.icon}</div>
-                    <h4 className="font-semibold">{skill.name}</h4>
-                    <p className="text-xs text-muted-foreground mt-1">{skill.category}</p>
-                  </CardContent>
-                </Card>
-              ))}
+                    Powering your favorite frameworks and tools
+                </motion.h2>
+
+                <div className="frameworks-container">
+                    {/* Row 1: Icons */}
+                    <motion.div style={{ x: x1 }} className="framework-row">
+                        {Row1Icons.map((item, i) => (
+                            <div
+                                key={`r1-${i}`}
+                                className="framework-card active"
+                                style={{ '--glow-color': item.color } as React.CSSProperties}
+                            >
+                                <img src={item.icon} alt={item.name} loading="lazy" />
+                            </div>
+                        ))}
+                    </motion.div>
+
+                    {/* Row 2: Icons */}
+                    <motion.div style={{ x: x2 }} className="framework-row">
+                        {Row2Icons.map((item, i) => (
+                            <div
+                                key={`r2-${i}`}
+                                className="framework-card active"
+                                style={{ '--glow-color': item.color } as React.CSSProperties}
+                            >
+                                <img src={item.icon} alt={item.name} loading="lazy" />
+                            </div>
+                        ))}
+                    </motion.div>
+
+                    {/* Row 3: Icons */}
+                    <motion.div style={{ x: x3 }} className="framework-row">
+                        {Row3Icons.map((item, i) => (
+                            <div
+                                key={`r3-${i}`}
+                                className="framework-card active"
+                                style={{ '--glow-color': item.color } as React.CSSProperties}
+                            >
+                                <img src={item.icon} alt={item.name} loading="lazy" />
+                            </div>
+                        ))}
+                    </motion.div>
+
+                    {/* Row 4: Icons */}
+                    <motion.div style={{ x: x4 }} className="framework-row">
+                        {Row4Icons.map((item, i) => (
+                            <div
+                                key={`r4-${i}`}
+                                className="framework-card active"
+                                style={{ '--glow-color': item.color } as React.CSSProperties}
+                            >
+                                <img src={item.icon} alt={item.name} loading="lazy" />
+                            </div>
+                        ))}
+                    </motion.div>
+
+                    {/* Row 5: Icons */}
+                    <motion.div style={{ x: x5 }} className="framework-row">
+                        {Row5Icons.map((item, i) => (
+                            <div
+                                key={`r5-${i}`}
+                                className="framework-card active"
+                                style={{ '--glow-color': item.color } as React.CSSProperties}
+                            >
+                                <img src={item.icon} alt={item.name} loading="lazy" />
+                            </div>
+                        ))}
+                    </motion.div>
+                </div>
             </div>
-          </div>
-        </div>
+        </section>
+    );
+};
 
-        {/* Tools & Technologies - Infinite Scroll Row 2 */}
-        <div className="mb-12">
-          <h3 className="text-2xl font-semibold text-center mb-8 bg-gradient-to-r from-blue-400 to-purple-400 text-transparent bg-clip-text">
-            Tools & Technologies
-          </h3>
-          <div className="relative">
-            <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
-            <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
-            
-            <div 
-              ref={scrollRef2}
-              className="flex gap-6 overflow-x-hidden pb-4"
-              style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-            >
-              {duplicatedTools.map((skill, index) => (
-                <Card 
-                  key={`${skill.name}-${index}`}
-                  className="flex-shrink-0 w-40 sm:w-48 md:w-56 border-border/50 bg-card/50 backdrop-blur-sm hover:border-blue-500/50 hover:scale-105 transition-all"
-                >
-                  <CardContent className="p-6 text-center">
-                    <div className="text-4xl mb-2">{skill.icon}</div>
-                    <h4 className="font-semibold">{skill.name}</h4>
-                    <p className="text-xs text-muted-foreground mt-1">{skill.category}</p>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* Soft Skills */}
-        <div className="text-center">
-          <h3 className="text-xl font-semibold mb-6 text-muted-foreground">Soft Skills</h3>
-          <div className="flex flex-wrap justify-center gap-3">
-            {softSkills.map((skill, index) => (
-              <Badge 
-                key={index}
-                variant="outline" 
-                className="px-4 py-2 border-purple-500/30 bg-purple-500/5 hover:bg-purple-500/10 transition-colors"
-              >
-                {skill}
-              </Badge>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      <style jsx>{`
-        div::-webkit-scrollbar {
-          display: none;
-        }
-      `}</style>
-    </section>
-  );
-}
+export default Skills;

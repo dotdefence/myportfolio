@@ -1,16 +1,16 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { Outfit } from 'next/font/google';
 import './globals.css';
 import { Toaster } from "@/components/ui/toaster";
-import Header from '@/components/shared/Header';
+import Navbar from '@/components/shared/Navbar';
 import Footer from '@/components/shared/Footer';
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/react";
 
-const inter = Inter({
+const outfit = Outfit({
   subsets: ['latin'],
   display: 'swap',
-  variable: '--font-inter',
+  variable: '--font-outfit',
 });
 
 export const metadata: Metadata = {
@@ -69,8 +69,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} dark`}>
-      <body className="font-sans antialiased bg-background text-foreground pt-16">
+    <html lang="en" className={`${outfit.variable} dark`} suppressHydrationWarning>
+      <body className="font-sans antialiased bg-dark-900 text-white selection:bg-neon-purple selection:text-white overflow-x-hidden">
         {/* Skip to main content link for accessibility */}
         <a
           href="#main-content"
@@ -78,7 +78,7 @@ export default function RootLayout({
         >
           Skip to main content
         </a>
-        <Header />
+        <Navbar />
         <main id="main-content">
           {children}
         </main>
@@ -86,6 +86,19 @@ export default function RootLayout({
         <Toaster />
         <SpeedInsights />
         <Analytics />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.getRegistrations().then(function(registrations) {
+                  for(let registration of registrations) {
+                    registration.unregister()
+                  }
+                })
+              }
+            `,
+          }}
+        />
       </body>
     </html>
   );

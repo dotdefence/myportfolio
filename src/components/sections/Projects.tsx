@@ -1,181 +1,138 @@
 'use client';
 
-import { useState } from 'react';
+import React, { useState } from 'react';
+import SectionHeading from '../ui/SectionHeading';
+import { PROJECTS } from '@/constants';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Button } from '@/components/ui/button';
-import TiltCard from '@/components/ui/TiltCard';
-import { projects } from '@/constants/projects';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
-import type { ProjectCategory } from '@/types';
+import { ExternalLink, Star, GitFork, ArrowUpRight } from 'lucide-react';
 
-export default function Projects() {
-  const [activeFilter, setActiveFilter] = useState<string>('all');
-  const [currentPage, setCurrentPage] = useState(0);
+const Projects: React.FC = () => {
+    const [activeFilter, setActiveFilter] = useState('All');
+    const filters = ['All', 'Cybersecurity', 'Web Apps', 'Branding'];
 
-  const categories = [
-    { id: 'all', label: 'All Projects', count: projects.length },
-    { id: 'web', label: 'Web Apps', count: projects.filter(p => p.category === 'web').length },
-    { id: 'mobile', label: 'Mobile', count: projects.filter(p => p.category === 'mobile').length },
-    { id: 'ai', label: 'AI/ML', count: projects.filter(p => p.category === 'ai').length },
-  ];
+    const filteredProjects = PROJECTS.filter(project =>
+        activeFilter === 'All' || project.category === activeFilter
+    );
 
-  const filteredProjects = activeFilter === 'all' 
-    ? projects 
-    : projects.filter(project => project.category === activeFilter as ProjectCategory);
-
-  // Carousel logic - 3 items per page
-  const itemsPerPage = 3;
-  const totalPages = Math.ceil(filteredProjects.length / itemsPerPage);
-  const startIndex = currentPage * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  const currentProjects = filteredProjects.slice(startIndex, endIndex);
-
-  const nextPage = () => {
-    setCurrentPage((prev) => (prev + 1) % totalPages);
-  };
-
-  const prevPage = () => {
-    setCurrentPage((prev) => (prev - 1 + totalPages) % totalPages);
-  };
-
-  // Reset to first page when filter changes
-  const handleFilterChange = (filterId: string) => {
-    setActiveFilter(filterId);
-    setCurrentPage(0);
-  };
-
-  return (
-    <section id="projects" className="py-24 px-4 relative overflow-hidden">
-      {/* Background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-background via-violet-500/5 to-background -z-10" />
-      
-      <div className="container mx-auto max-w-7xl">
-        {/* Section Header */}
-        <div className="text-center mb-16 space-y-4">
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold">
-            Featured <span className="bg-gradient-to-r from-violet-400 to-pink-400 text-transparent bg-clip-text">Projects</span>
-          </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Exploring innovation through hands-on projects that solve real-world problems
-          </p>
-        </div>
-
-        {/* Category Filter */}
-        <div className="flex flex-wrap justify-center gap-3 mb-12">
-          {categories.map((category) => (
-            <button
-              key={category.id}
-              onClick={() => handleFilterChange(category.id)}
-              className={`px-6 py-3 rounded-full font-medium transition-all ${
-                activeFilter === category.id
-                  ? 'bg-gradient-to-r from-violet-500 to-pink-500 text-white shadow-lg shadow-violet-500/25 scale-105'
-                  : 'bg-card/50 border border-border/50 hover:border-violet-500/50 hover:bg-violet-500/10'
-              }`}
-            >
-              {category.label}
-              <span className="ml-2 text-xs opacity-70">({category.count})</span>
-            </button>
-          ))}
-        </div>
-
-        {/* Projects Carousel */}
-        <div className="relative mb-12">
-          {/* Navigation Arrows */}
-          {totalPages > 1 && (
-            <>
-              <Button
-                onClick={prevPage}
-                size="icon"
-                variant="outline"
-                className="absolute left-0 top-1/2 -translate-y-1/2 z-10 h-12 w-12 rounded-full bg-background/80 backdrop-blur-md border-violet-500/50 hover:bg-violet-500/10 hover:border-violet-500 -translate-x-6 hidden lg:flex"
-              >
-                <ChevronLeft className="h-6 w-6" />
-              </Button>
-              
-              <Button
-                onClick={nextPage}
-                size="icon"
-                variant="outline"
-                className="absolute right-0 top-1/2 -translate-y-1/2 z-10 h-12 w-12 rounded-full bg-background/80 backdrop-blur-md border-violet-500/50 hover:bg-violet-500/10 hover:border-violet-500 translate-x-6 hidden lg:flex"
-              >
-                <ChevronRight className="h-6 w-6" />
-              </Button>
-            </>
-          )}
-
-          {/* Projects Grid with Animation */}
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={currentPage}
-              initial={{ opacity: 0, x: 100 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -100 }}
-              transition={{ duration: 0.3 }}
-              className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
-            >
-              {currentProjects.map((project, index) => (
-                <motion.div
-                  key={project.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                >
-                  <TiltCard
-                    title={project.title}
-                    description={project.description}
-                    image={project.image}
-                    tags={project.tags}
-                    github={project.github}
-                    live={project.live}
-                    stats={project.stats}
-                    featured={project.featured}
-                  />
-                </motion.div>
-              ))}
-            </motion.div>
-          </AnimatePresence>
-
-          {/* Page Indicators */}
-          {totalPages > 1 && (
-            <div className="flex justify-center gap-2 mt-8">
-              {Array.from({ length: totalPages }).map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => setCurrentPage(index)}
-                  className={`h-2 rounded-full transition-all ${
-                    currentPage === index
-                      ? 'w-8 bg-gradient-to-r from-violet-500 to-pink-500'
-                      : 'w-2 bg-border hover:bg-violet-500/50'
-                  }`}
-                  aria-label={`Go to page ${index + 1}`}
+    return (
+        <section id="projects" className="py-32 bg-dark-900 relative">
+            <div className="container mx-auto px-6">
+                <SectionHeading
+                    title="Deployed"
+                    highlight="Systems"
+                    subtitle="Advanced solutions engineered for performance and security."
                 />
-              ))}
-            </div>
-          )}
 
-          {/* Mobile Navigation Buttons */}
-          {totalPages > 1 && (
-            <div className="flex justify-center gap-4 mt-8 lg:hidden">
-              <Button
-                onClick={prevPage}
-                variant="outline"
-                className="border-violet-500/50 hover:bg-violet-500/10"
-              >
-                <ChevronLeft className="h-5 w-5 mr-2" />
-                Previous
-              </Button>
-              <Button
-                onClick={nextPage}
-                variant="outline"
-                className="border-violet-500/50 hover:bg-violet-500/10"
-              >
-                Next
-                <ChevronRight className="h-5 w-5 ml-2" />
-              </Button>
+                {/* Filter Tabs */}
+                <div className="flex justify-center mb-16">
+                    <div className="inline-flex p-1 bg-white/5 rounded-xl border border-white/10 backdrop-blur-sm">
+                        {filters.map((filter) => (
+                            <button
+                                key={filter}
+                                onClick={() => setActiveFilter(filter)}
+                                className={`
+                            px-6 py-2.5 rounded-lg text-sm font-medium transition-all duration-300 relative
+                            ${activeFilter === filter ? 'text-white' : 'text-gray-400 hover:text-white'}
+                        `}
+                            >
+                                {activeFilter === filter && (
+                                    <motion.div
+                                        layoutId="activeTab"
+                                        className="absolute inset-0 bg-dark-700 rounded-lg shadow-sm border border-white/10"
+                                        transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                                    />
+                                )}
+                                <span className="relative z-10">{filter}</span>
+                            </button>
+                        ))}
+                    </div>
+                </div>
+
+                <motion.div layout className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <AnimatePresence mode='popLayout'>
+                        {filteredProjects.map((project) => (
+                            <motion.div
+                                layout
+                                key={project.title}
+                                initial={{ opacity: 0, scale: 0.9 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                exit={{ opacity: 0, scale: 0.9 }}
+                                className="group relative h-full"
+                            >
+                                {/* Card Container */}
+                                <div className="
+                    h-full bg-dark-800/50 backdrop-blur-sm 
+                    border border-white/5 rounded-2xl overflow-hidden
+                    hover:border-white/10 transition-all duration-500
+                    flex flex-col
+                  ">
+
+                                    {/* Image Area */}
+                                    <div className="relative aspect-video overflow-hidden">
+                                        <div className="absolute inset-0 bg-dark-900/20 z-10 group-hover:bg-transparent transition-colors duration-500" />
+                                        <img
+                                            src={project.image}
+                                            alt={project.title}
+                                            className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-out"
+                                        />
+
+                                        {/* Status Overlay */}
+                                        <div className="absolute top-4 left-4 z-20 flex gap-2">
+                                            {project.featured && (
+                                                <span className="px-2 py-1 bg-neon-purple/20 text-neon-purple text-[10px] font-bold uppercase tracking-wider rounded border border-neon-purple/20 backdrop-blur-md">
+                                                    Featured
+                                                </span>
+                                            )}
+                                        </div>
+                                    </div>
+
+                                    {/* Content Area */}
+                                    <div className="p-6 flex flex-col flex-grow relative">
+                                        {/* Hover Gradient Border Effect on Content */}
+                                        <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+                                        <div className="flex justify-between items-start mb-3">
+                                            <h3 className="text-xl font-bold text-white group-hover:text-neon-pink transition-colors">{project.title}</h3>
+                                            <div className="flex gap-2">
+                                                <a href={project.liveUrl} className="text-gray-500 hover:text-white transition-colors">
+                                                    <ArrowUpRight size={18} />
+                                                </a>
+                                            </div>
+                                        </div>
+
+                                        <p className="text-gray-400 text-sm leading-relaxed mb-6 flex-grow">
+                                            {project.description}
+                                        </p>
+
+                                        <div className="space-y-4 mt-auto">
+                                            {/* Tags */}
+                                            <div className="flex flex-wrap gap-2">
+                                                {project.tags.map(tag => (
+                                                    <span key={tag} className="text-xs text-gray-500 bg-white/5 px-2 py-1 rounded border border-white/5">
+                                                        {tag}
+                                                    </span>
+                                                ))}
+                                            </div>
+
+                                            {/* Stats */}
+                                            <div className="pt-4 border-t border-white/5 flex items-center gap-4 text-xs font-mono text-gray-500">
+                                                {project.stats.map(stat => (
+                                                    <div key={stat.label} className="flex items-center gap-1">
+                                                        <span className="text-gray-400">{stat.label}:</span>
+                                                        <span className="text-gray-300">{stat.value}</span>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </motion.div>
+                        ))}
+                    </AnimatePresence>
+                </motion.div>
             </div>
-          )}
-        </div>
-      </div>
-    </section>
-  );
-}
+        </section>
+    );
+};
+
+export default Projects;

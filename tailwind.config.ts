@@ -10,6 +10,8 @@ export default {
   theme: {
     extend: {
       fontFamily: {
+        sans: ['Outfit', 'sans-serif'],
+        mono: ['JetBrains Mono', 'monospace'],
         body: ['var(--font-body)', 'monospace'],
         headline: ['var(--font-body)', 'monospace'],
         code: ['var(--font-body)', 'monospace'],
@@ -17,6 +19,17 @@ export default {
       colors: {
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
+        dark: {
+          900: '#050505', // Deepest Black
+          800: '#0a0a0a', // Component Black
+          700: '#121212', // Lighter Black
+        },
+        neon: {
+          purple: '#b026ff', // Electric Purple
+          pink: '#ff006e',   // Cyber Pink
+          blue: '#3b82f6',   // Tech Blue
+          green: '#00ff94',  // Hacker Green
+        },
         card: {
           DEFAULT: 'hsl(var(--card))',
           foreground: 'hsl(var(--card-foreground))',
@@ -110,6 +123,7 @@ export default {
         'fade-in': 'fadeIn 0.5s ease-out forwards',
         'slide-in-up': 'slideInUp 0.5s ease-out forwards',
         'pulse-glow': 'pulseGlow 2s infinite ease-in-out',
+        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
       },
       boxShadow: {
         'neon-sm': '0 0 5px hsl(var(--accent)), 0 0 10px hsl(var(--accent) / 0.5)',

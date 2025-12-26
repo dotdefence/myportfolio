@@ -1,237 +1,121 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
-import Image from 'next/image';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { ArrowRight, Shield, Code2, Target } from 'lucide-react';
+import { Shield, Terminal, Zap, ArrowRight, ChevronRight, Binary, Github, Linkedin, Instagram } from 'lucide-react';
+import { SOCIAL_LINKS } from '@/constants';
 
-export default function Hero() {
-  const [isVisible, setIsVisible] = useState(false);
-  const [isMounted, setIsMounted] = useState(false);
-  const [dimensions, setDimensions] = useState({ width: 1920, height: 1080 });
-  const heroRef = useRef<HTMLElement>(null);
+const Hero: React.FC = () => {
+    return (
+        <section id="home" className="min-h-screen flex items-center justify-center pt-20 relative overflow-hidden bg-dark-900">
 
-  useEffect(() => {
-    setIsVisible(true);
-    setIsMounted(true);
-    // Set actual window dimensions on client side
-    setDimensions({
-      width: window.innerWidth,
-      height: window.innerHeight
-    });
-  }, []);
+            {/* 3D Perspective Grid Floor */}
+            <div
+                className="absolute bottom-0 left-0 right-0 h-[50vh] cyber-grid pointer-events-none opacity-40"
+                style={{ transform: 'perspective(1000px) rotateX(60deg) translateY(100px) scale(2.5)' }}
+            />
 
-  const scrollToSection = (id: string) => {
-    const element = document.getElementById(id);
-    element?.scrollIntoView({ behavior: 'smooth' });
-  };
+            {/* Ambient Glows */}
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-neon-purple/10 rounded-full blur-[120px] pointer-events-none" />
 
-  return (
-    <section
-      ref={heroRef}
-      className="relative min-h-screen flex items-center justify-center overflow-hidden px-4 pt-16"
-    >
-      {/* Animated Background with Particles */}
-      <div className="absolute inset-0 -z-10">
-        {/* Gradient Orbs - Match Website Theme */}
-        <div className="absolute top-1/4 -left-48 w-96 h-96 bg-purple-500/20 rounded-full mix-blend-multiply filter blur-3xl animate-blob" />
-        <div className="absolute top-1/3 -right-48 w-96 h-96 bg-pink-500/20 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-2000" />
-        <div className="absolute bottom-1/4 left-1/3 w-96 h-96 bg-violet-500/20 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-4000" />
+            <div className="container mx-auto px-6 relative z-10">
+                <div className="max-w-5xl mx-auto text-center">
 
-        {/* Grid Pattern */}
-        <div className="absolute inset-0 bg-grid-white/[0.02]" />
 
-        {/* Radial Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-background via-background/90 to-background" />
 
-        {/* Floating Particles - Only render on client side to avoid hydration mismatch */}
-        {isMounted && [...Array(20)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute w-1 h-1 bg-purple-500/30 rounded-full"
-            initial={{
-              x: Math.random() * dimensions.width,
-              y: Math.random() * dimensions.height,
-            }}
-            animate={{
-              y: [null, Math.random() * dimensions.height],
-              x: [null, Math.random() * dimensions.width],
-            }}
-            transition={{
-              duration: Math.random() * 10 + 10,
-              repeat: Infinity,
-              ease: "linear",
-            }}
-          />
-        ))}
-      </div>
+                    {/* Main Title */}
+                    <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight mb-8 text-white">
+                        <motion.span
+                            initial={{ opacity: 0, filter: "blur(10px)" }}
+                            animate={{ opacity: 1, filter: "blur(0px)" }}
+                            transition={{ duration: 0.8, delay: 0.2 }}
+                            className="block mb-2"
+                        >
+                            Defending the
+                        </motion.span>
+                        <motion.span
+                            initial={{ opacity: 0, filter: "blur(10px)" }}
+                            animate={{ opacity: 1, filter: "blur(0px)" }}
+                            transition={{ duration: 0.8, delay: 0.4 }}
+                            className="text-transparent bg-clip-text bg-gradient-to-r from-neon-purple via-white to-neon-pink"
+                        >
+                            Digital Frontier
+                        </motion.span>
+                    </h1>
 
-      <div className={`container mx-auto max-w-7xl z-10 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-        {/* Two Column Layout */}
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-          {/* Left Side - Avatar Image */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            className="flex justify-center items-center order-2 lg:order-1"
-          >
-            <div className="relative">
-              {/* Subtle Glow Background - Match Theme */}
-              <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 via-pink-500/20 to-violet-500/20 blur-[120px] animate-pulse" />
+                    {/* Subtitle */}
+                    <motion.p
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ duration: 0.8, delay: 0.6 }}
+                        className="text-gray-400 text-lg md:text-xl mb-10 max-w-2xl mx-auto leading-relaxed"
+                    >
+                        Specializing in <span className="text-white font-medium">VAPT</span>, <span className="text-white font-medium">Red Teaming</span>, and <span className="text-white font-medium">Security Infrastructure</span>.
+                        <br />
+                        I turn vulnerabilities into fortified assets.
+                    </motion.p>
 
-              {/* Clean Image */}
-              <div className="relative">
-                <Image
-                  src="/hackeravatarpranaav.png"
-                  alt="Cybersecurity Expert"
-                  width={600}
-                  height={600}
-                  priority
-                  className="w-full h-auto max-w-xs sm:max-w-sm lg:max-w-md xl:max-w-lg drop-shadow-2xl hover:scale-105 transition-transform duration-500 ease-out"
-                />
-              </div>
+                    {/* CTA Buttons */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8, delay: 0.8 }}
+                        className="flex flex-col sm:flex-row items-center justify-center gap-4"
+                    >
+                        <a href="#projects" className="group relative px-8 py-4 bg-white text-black font-bold rounded-lg overflow-hidden hover:scale-105 transition-transform duration-200">
+                            <div className="absolute inset-0 bg-gradient-to-r from-neon-green to-neon-blue opacity-0 group-hover:opacity-100 transition-opacity duration-300 mix-blend-color-burn" />
+                            <span className="relative flex items-center gap-2">
+                                View Operations <ArrowRight size={18} />
+                            </span>
+                        </a>
+
+                        <a href="#contact" className="px-8 py-4 bg-white/5 text-white font-medium rounded-lg border border-white/10 hover:bg-white/10 transition-colors flex items-center gap-2 backdrop-blur-sm">
+                            Initiate Comms <ChevronRight size={16} className="text-gray-500" />
+                        </a>
+                    </motion.div>
+
+                    {/* Social Uplinks */}
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ duration: 0.8, delay: 1 }}
+                        className="flex items-center justify-center gap-6 mt-12"
+                    >
+                        <a href={SOCIAL_LINKS.github} target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-white transition-all hover:scale-110">
+                            <Github size={20} />
+                        </a>
+                        <a href={SOCIAL_LINKS.linkedin} target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-[#0077b5] transition-all hover:scale-110">
+                            <Linkedin size={20} />
+                        </a>
+                        <a href={SOCIAL_LINKS.instagram} target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-[#E1306C] transition-all hover:scale-110">
+                            <Instagram size={20} />
+                        </a>
+                    </motion.div>
+
+                    {/* Tech Stack Ticker (Visual Decoration) */}
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ duration: 1, delay: 1.2 }}
+                        className="mt-20 pt-10 border-t border-white/5 flex flex-wrap justify-center gap-8 md:gap-16 opacity-50 grayscale hover:grayscale-0 transition-all duration-500"
+                    >
+                        <div className="flex items-center gap-2 text-sm font-mono text-gray-400">
+                            <Shield size={16} /> SECURITY+
+                        </div>
+                        <div className="flex items-center gap-2 text-sm font-mono text-gray-400">
+                            <Terminal size={16} /> BASH
+                        </div>
+                        <div className="flex items-center gap-2 text-sm font-mono text-gray-400">
+                            <Binary size={16} /> PYTHON
+                        </div>
+                        <div className="flex items-center gap-2 text-sm font-mono text-gray-400">
+                            <Zap size={16} /> BURPSUITE
+                        </div>
+                    </motion.div>
+                </div>
             </div>
-          </motion.div>
+        </section>
+    );
+};
 
-          {/* Right Side - Content */}
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.5 }}
-            className="space-y-8 order-1 lg:order-2"
-          >
-            {/* Bold Main Heading */}
-            <div className="space-y-6">
-              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tight leading-tight text-center">
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-purple-200 to-white whitespace-nowrap">
-                  Guarding What Matters
-                </span>
-                <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-400 to-violet-400 animate-gradient bg-300% whitespace-nowrap">
-                  in the Digital Age
-                </span>
-              </h1>
-
-              {/* Tagline */}
-              <p className="text-lg md:text-xl lg:text-2xl text-muted-foreground/90 leading-relaxed max-w-2xl font-medium text-center">
-                Cybersecurity enthusiast and penetration tester committed to{' '}
-                <span className="text-purple-400 font-bold">fortifying digital infrastructure</span>{' '}
-                through ethical hacking and{' '}
-                <span className="text-pink-400 font-bold">proactive threat intelligence</span>.
-              </p>
-            </div>
-
-            {/* Badge Tags */}
-            <div className="flex flex-wrap gap-3 justify-center">
-              <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5, delay: 0.7 }}
-              >
-                <Badge className="bg-transparent border-2 border-violet-500/50 text-violet-400 px-4 py-2 text-sm font-semibold hover:bg-violet-500/10 transition-all ">
-                  <Shield className="w-4 h-4 mr-2 inline" />
-                  Cybersecurity Expert
-                </Badge>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5, delay: 0.8 }}
-              >
-                <Badge className="bg-transparent border-2 border-purple-500/50 text-purple-400 px-4 py-2 text-sm font-semibold hover:bg-purple-500/10 transition-all">
-                  <Code2 className="w-4 h-4 mr-2 inline" />
-                  AI Developer
-                </Badge>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5, delay: 0.9 }}
-              >
-                <Badge className="bg-transparent border-2 border-pink-500/50 text-pink-400 px-4 py-2 text-sm font-semibold hover:bg-pink-500/10 transition-all">
-                  <Target className="w-4 h-4 mr-2 inline" />
-                  Penetration Tester
-                </Badge>
-              </motion.div>
-            </div>
-
-            {/* CTA Buttons */}
-            <div className="flex flex-wrap gap-4 pt-4 justify-center">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 1.0 }}
-              >
-                <Button
-                  size="lg"
-                  className="group bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white px-8 py-6 text-base font-bold shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40 transition-all"
-                  onClick={() => scrollToSection('projects')}
-                >
-                  Explore My Work
-                  <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-                </Button>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 1.1 }}
-              >
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="border-2 border-violet-500/50 hover:bg-violet-500/10 hover:border-violet-500 text-white px-8 py-6 text-base font-bold transition-all"
-                  onClick={() => scrollToSection('about')}
-                >
-                  About Me
-                </Button>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 1.2 }}
-              >
-                <Button
-                  size="lg"
-                  variant="ghost"
-                  className="border border-transparent hover:border-purple-500/30 hover:bg-purple-500/5 text-white px-8 py-6 text-base font-bold transition-all"
-                  onClick={() => window.open('/resume.pdf', '_blank')}
-                >
-                  Resume
-                </Button>
-              </motion.div>
-            </div>
-
-            {/* Stats Cards */}
-            <div className="grid grid-cols-3 gap-4 pt-6 justify-center">
-              {[
-                { value: '2+', label: 'Years Experience' },
-                { value: '6', label: 'Projects Completed' },
-                { value: '9+', label: 'Certifications' },
-              ].map((stat, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 1.2 + index * 0.1 }}
-                  className="text-center group"
-                >
-                  <h3 className="text-3xl sm:text-4xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400 group-hover:scale-110 transition-transform inline-block">
-                    {stat.value}
-                  </h3>
-                  <p className="text-xs sm:text-sm text-muted-foreground mt-2 font-medium">{stat.label}</p>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
-        </div>
-      </div>
-    </section>
-  );
-}
+export default Hero;

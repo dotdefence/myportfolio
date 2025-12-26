@@ -1,131 +1,129 @@
 'use client';
 
-import Image from 'next/image';
-import { Card, CardContent } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Code2, Zap, Trophy } from 'lucide-react';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import React from 'react';
+import SectionHeading from '../ui/SectionHeading';
+import { motion } from 'framer-motion';
+import { Trophy, Target, Shield, Cpu, Activity } from 'lucide-react';
 
-export default function About() {
-  const highlights = [
-    { icon: Trophy, label: 'Top 3% TryHackMe' },
-    { icon: Zap, label: 'Red Teaming Specialist' },
-    { icon: Code2, label: 'Ethical Hacking Expert' },
-  ];
+const About: React.FC = () => {
+    return (
+        <section id="about" className="py-32 relative bg-dark-900 overflow-hidden">
 
-  return (
-    <section id="about" className="py-24 px-4 relative overflow-hidden">
-      {/* Background Elements */}
-      <div className="absolute inset-0 bg-gradient-to-b from-background via-purple-500/5 to-background -z-10" />
+            {/* Background Decor */}
+            <div className="absolute top-1/2 left-0 w-64 h-64 bg-neon-purple/5 rounded-full blur-[100px] -translate-y-1/2" />
 
-      <div className="container mx-auto max-w-7xl">
-        {/* Section Header */}
-        <div className="text-center mb-16 space-y-4">
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold">
-            About <span className="bg-gradient-to-r from-purple-400 to-pink-400 text-transparent bg-clip-text">Me</span>
-          </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Cybersecurity student passionate about protecting the digital world
-          </p>
-        </div>
-
-        <div className="grid lg:grid-cols-2 gap-12 mb-16 items-center">
-          {/* Left Column - Profile & Bio */}
-          <div className="space-y-8">
-            {/* Profile Card */}
-            <Card className="border-border/50 bg-card/50 backdrop-blur-sm hover:border-purple-500/50 transition-all">
-              <CardContent className="p-8">
-                <div className="flex items-start gap-6">
-                  {/* Avatar */}
-                  <div className="relative">
-                    <div className="w-24 h-24 rounded-2xl bg-gradient-to-br from-purple-400 via-pink-400 to-blue-400 p-0.5">
-                      <Avatar className="w-full h-full rounded-2xl">
-                        <AvatarImage src="/pranaav_avatar.png" alt="Pranaav Bhatnagar" />
-                        <AvatarFallback className="text-2xl font-bold bg-background rounded-2xl">
-                          PB
-                        </AvatarFallback>
-                      </Avatar>
-                    </div>
-                    <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-purple-500 rounded-full border-4 border-background flex items-center justify-center">
-                      <div className="w-2 h-2 bg-white rounded-full animate-pulse" />
-                    </div>
-                  </div>
-
-                  {/* Info */}
-                  <div className="flex-1 space-y-2">
-                    <h3 className="text-2xl font-bold">Pranaav Bhatnagar</h3>
-                    <p className="text-muted-foreground">Cybersecurity Researcher</p>
-                    <Badge variant="secondary" className="bg-purple-500/10 text-purple-400 border-purple-500/20">
-                      Available for Collaboration
-                    </Badge>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Bio Text */}
-            <div className="space-y-4 text-muted-foreground leading-relaxed">
-              <p>
-                <span className="text-2xl font-bold text-foreground">Hi, I am Pranaav Bhatnagar</span>
-                <br className="mb-2" />
-                <Badge variant="outline" className="my-2 border-purple-500/50 text-purple-400">
-                  🏆 TryHackMe Top 3%
-                </Badge>
-                <br className="mb-2" />
-                A dedicated cybersecurity student passionate about protecting the digital world.
-                My focus lies in mastering red teaming by simulating real-world attacks to
-                uncover vulnerabilities and strengthen defenses.
-              </p>
-              <p>
-                I actively participate in CTF challenges, sharpening my skills in ethical hacking
-                and problem-solving. Currently pursuing BTech in Computer Science at Sharda University,
-                I'm constantly expanding my expertise in penetration testing, OSINT, and security research.
-              </p>
-              <p>
-                When I'm not hacking ethically, you'll find me organizing cybersecurity workshops,
-                mentoring fellow students, or competing in CTF tournaments. I believe in continuous
-                learning and giving back to the cybersecurity community.
-              </p>
-            </div>
-
-            {/* Highlights */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              {highlights.map((item, index) => {
-                const Icon = item.icon;
-                return (
-                  <Card key={index} className="border-border/50 bg-purple-500/5 hover:bg-purple-500/10 transition-colors">
-                    <CardContent className="p-4 flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-lg bg-purple-500/10 flex items-center justify-center flex-shrink-0">
-                        <Icon className="h-5 w-5 text-purple-400" />
-                      </div>
-                      <p className="text-sm font-medium">{item.label}</p>
-                    </CardContent>
-                  </Card>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* Right Column - Avatar Image */}
-          <div className="flex justify-center items-center">
-            <div className="relative">
-              {/* Subtle Glow Background */}
-              <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 via-pink-500/20 to-violet-500/20 blur-[120px] animate-pulse" />
-
-              {/* Clean Image */}
-              <div className="relative">
-                <Image
-                  src="/pranaav_avatar.png"
-                  alt="Pranaav Bhatnagar"
-                  width={600}
-                  height={600}
-                  className="w-full h-auto max-w-xs sm:max-w-sm lg:max-w-md xl:max-w-lg drop-shadow-2xl hover:scale-105 transition-transform duration-500 ease-out"
+            <div className="container mx-auto px-6 relative z-10">
+                <SectionHeading
+                    title="Operator"
+                    highlight="Profile"
                 />
-              </div>
+
+                <div className="grid md:grid-cols-2 gap-16 items-center max-w-6xl mx-auto">
+
+                    {/* Left: The "Scanner" Card */}
+                    <motion.div
+                        initial={{ opacity: 0, x: -50 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
+                        className="relative"
+                    >
+                        <div className="relative rounded-2xl bg-dark-800/30 border border-white/5 p-2 overflow-hidden backdrop-blur-sm">
+                            {/* Scanner Line Animation */}
+                            <div className="absolute top-0 left-0 w-full h-1 bg-neon-green/50 shadow-[0_0_15px_rgba(0,255,148,0.5)] z-20 animate-[scan_3s_ease-in-out_infinite]" />
+
+                            <div className="relative rounded-xl overflow-hidden aspect-[4/5] bg-dark-900">
+                                <div className="relative w-full h-full group/img">
+                                    <img
+                                        src="/pranaav_avatar.png"
+                                        alt="Pranaav Bhatnagar"
+                                        className="w-full h-full object-cover opacity-100 group-hover/img:opacity-0 transition-opacity duration-500"
+                                    />
+                                    <img
+                                        src="/hackeravatarpranaav.png"
+                                        alt="Cyber Avatar"
+                                        className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover/img:opacity-100 transition-opacity duration-500"
+                                    />
+                                </div>
+
+                                {/* HUD Overlay */}
+                                <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-dark-900 to-transparent">
+                                    <h3 className="text-2xl font-bold text-white font-mono">PRANAAV BHATNAGAR</h3>
+                                    <div className="flex items-center gap-2 mt-2">
+                                        <span className="w-2 h-2 bg-neon-green rounded-full animate-pulse" />
+                                        <span className="text-neon-green text-xs font-mono tracking-widest">STATUS: ACTIVE</span>
+                                    </div>
+                                </div>
+
+                                {/* Corner Markers */}
+                                <div className="absolute top-4 left-4 w-8 h-8 border-t-2 border-l-2 border-white/20" />
+                                <div className="absolute top-4 right-4 w-8 h-8 border-t-2 border-r-2 border-white/20" />
+                                <div className="absolute bottom-4 left-4 w-8 h-8 border-b-2 border-l-2 border-white/20" />
+                                <div className="absolute bottom-4 right-4 w-8 h-8 border-b-2 border-r-2 border-white/20" />
+                            </div>
+                        </div>
+                    </motion.div>
+
+                    {/* Right: The Data Stream */}
+                    <motion.div
+                        initial={{ opacity: 0, x: 50 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
+                        className="space-y-8"
+                    >
+                        <div>
+                            <div className="inline-flex items-center space-x-2 border border-neon-purple/30 bg-neon-purple/5 px-3 py-1 rounded-full mb-6">
+                                <Activity size={14} className="text-neon-purple" />
+                                <span className="text-xs font-mono text-neon-purple">INITIALIZING BIO-DATA...</span>
+                            </div>
+
+                            <h3 className="text-3xl font-bold mb-6 leading-tight">
+                                Securing the <span className="text-white">digital realm</span> through offensive research.
+                            </h3>
+
+                            <div className="space-y-4 text-gray-400 leading-relaxed text-lg">
+                                <p>
+                                    Cybersecurity researcher focused on <strong className="text-white">VAPT</strong> and <strong className="text-white">Red Teaming</strong>. I simulate sophisticated attacks to uncover critical vulnerabilities before they can be exploited in the wild.
+                                </p>
+                                <p>
+                                    Currently refining my arsenal in <span className="text-gray-300">OSINT</span> and <span className="text-gray-300">Digital Forensics</span> while pursuing my BTech in Computer Science.
+                                </p>
+                            </div>
+                        </div>
+
+                        {/* Stats / Metrics */}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div className="p-4 bg-white/5 border border-white/5 rounded-lg hover:border-neon-purple/50 transition-colors group">
+                                <div className="flex items-start justify-between mb-2">
+                                    <span className="text-gray-400 text-xs font-mono uppercase">Global Rank</span>
+                                    <Trophy size={16} className="text-yellow-500" />
+                                </div>
+                                <div className="text-2xl font-bold text-white group-hover:text-neon-purple transition-colors">Top 3%</div>
+                                <div className="text-xs text-gray-500 mt-1">TryHackMe</div>
+                            </div>
+
+                            <div className="p-4 bg-white/5 border border-white/5 rounded-lg hover:border-neon-pink/50 transition-colors group">
+                                <div className="flex items-start justify-between mb-2">
+                                    <span className="text-gray-400 text-xs font-mono uppercase">Specialization</span>
+                                    <Target size={16} className="text-neon-pink" />
+                                </div>
+                                <div className="text-2xl font-bold text-white group-hover:text-neon-pink transition-colors">Red Team</div>
+                                <div className="text-xs text-gray-500 mt-1">Offensive Security</div>
+                            </div>
+                        </div>
+                    </motion.div>
+                </div>
             </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
+
+            <style>{`
+        @keyframes scan {
+          0%, 100% { top: 0%; opacity: 0; }
+          10% { opacity: 1; }
+          90% { opacity: 1; }
+          100% { top: 100%; opacity: 0; }
+        }
+      `}</style>
+        </section>
+    );
+};
+
+export default About;

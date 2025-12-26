@@ -1,135 +1,89 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 
-interface Particle {
-  x: number;
-  y: number;
-  vx: number;
-  vy: number;
-  size: number;
-  opacity: number;
-}
-
-export default function ParticleBackground() {
+const ParticleBackground: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const particlesRef = useRef<Particle[]>([]);
-  const mouseRef = useRef({ x: 0, y: 0 });
-  const animationFrameRef = useRef<number | null>(null);
 
   useEffect(() => {
-    // Check for reduced motion preference
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReducedMotion) return;
-
     const canvas = canvasRef.current;
     if (!canvas) return;
 
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    // Set canvas size
-    const resizeCanvas = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    };
-    resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
+    let width = window.innerWidth;
+    let height = window.innerHeight;
 
-    // Initialize particles - Cap at 100 for performance
-    const calculatedCount = Math.floor((canvas.width * canvas.height) / 15000);
-    const particleCount = Math.min(calculatedCount, 100);
+    canvas.width = width;
+    canvas.height = height;
 
-    particlesRef.current = Array.from({ length: particleCount }, () => ({
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height,
-      vx: (Math.random() - 0.5) * 0.5,
-      vy: (Math.random() - 0.5) * 0.5,
-      size: Math.random() * 2 + 1,
-      opacity: Math.random() * 0.5 + 0.2,
-    }));
+    const particles: { x: number; y: number; dx: number; dy: number; size: number }[] = [];
+    const particleCount = width < 768 ? 40 : 80;
 
-    // Mouse move handler
-    const handleMouseMove = (e: MouseEvent) => {
-      mouseRef.current = { x: e.clientX, y: e.clientY };
-    };
-    window.addEventListener('mousemove', handleMouseMove);
+    for (let i = 0; i < particleCount; i++) {
+      particles.push({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        dx: (Math.random() - 0.5) * 0.3, // Slower movement
+        dy: (Math.random() - 0.5) * 0.3,
+        size: Math.random() * 1.5 + 0.5, // Smaller, star-like
+      });
+    }
 
-    // Animation loop
     const animate = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.clearRect(0, 0, width, height);
+      // Subtle gray/white for a "starfield" effect on pure black
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.15)'; 
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.03)';
 
-      particlesRef.current.forEach((particle, i) => {
-        // Update position
-        particle.x += particle.vx;
-        particle.y += particle.vy;
+      particles.forEach((p, i) => {
+        p.x += p.dx;
+        p.y += p.dy;
 
-        // Wrap around screen
-        if (particle.x < 0) particle.x = canvas.width;
-        if (particle.x > canvas.width) particle.x = 0;
-        if (particle.y < 0) particle.y = canvas.height;
-        if (particle.y > canvas.height) particle.y = 0;
+        if (p.x < 0 || p.x > width) p.dx *= -1;
+        if (p.y < 0 || p.y > height) p.dy *= -1;
 
-        // Mouse interaction
-        const dx = mouseRef.current.x - particle.x;
-        const dy = mouseRef.current.y - particle.y;
-        const distance = Math.sqrt(dx * dx + dy * dy);
-        const maxDistance = 150;
-
-        if (distance < maxDistance) {
-          const force = (maxDistance - distance) / maxDistance;
-          particle.vx -= (dx / distance) * force * 0.1;
-          particle.vy -= (dy / distance) * force * 0.1;
-        }
-
-        // Apply friction
-        particle.vx *= 0.99;
-        particle.vy *= 0.99;
-
-        // Draw particle
         ctx.beginPath();
-        ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(168, 85, 247, ${particle.opacity})`;
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
         ctx.fill();
 
-        // Draw connections - Optimized loop
-        // Only check a subset of particles or limit distance checks if needed
-        // For < 100 particles, O(n^2) is acceptable
-        particlesRef.current.slice(i + 1).forEach((otherParticle) => {
-          const dx = particle.x - otherParticle.x;
-          const dy = particle.y - otherParticle.y;
-          const distance = Math.sqrt(dx * dx + dy * dy);
-
-          if (distance < 120) {
+        // Connect particles close to each other
+        for (let j = i + 1; j < particles.length; j++) {
+          const p2 = particles[j];
+          const dist = Math.hypot(p.x - p2.x, p.y - p2.y);
+          if (dist < 120) {
+            ctx.lineWidth = 1 - dist / 120;
             ctx.beginPath();
-            ctx.moveTo(particle.x, particle.y);
-            ctx.lineTo(otherParticle.x, otherParticle.y);
-            ctx.strokeStyle = `rgba(168, 85, 247, ${0.15 * (1 - distance / 120)})`;
-            ctx.lineWidth = 0.5;
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(p2.x, p2.y);
             ctx.stroke();
           }
-        });
+        }
       });
 
-      animationFrameRef.current = requestAnimationFrame(animate);
+      requestAnimationFrame(animate);
     };
 
     animate();
 
-    return () => {
-      window.removeEventListener('resize', resizeCanvas);
-      window.removeEventListener('mousemove', handleMouseMove);
-      if (animationFrameRef.current) {
-        cancelAnimationFrame(animationFrameRef.current);
-      }
+    const handleResize = () => {
+      width = window.innerWidth;
+      height = window.innerHeight;
+      canvas.width = width;
+      canvas.height = height;
     };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   return (
-    <canvas
-      ref={canvasRef}
-      className="fixed inset-0 pointer-events-none z-0"
-      style={{ opacity: 0.4 }}
+    <canvas 
+      ref={canvasRef} 
+      className="fixed top-0 left-0 w-full h-full -z-10 pointer-events-none"
     />
   );
-}
+};
+
+export default ParticleBackground;
